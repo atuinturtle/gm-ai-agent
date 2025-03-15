@@ -8,6 +8,7 @@ export class SetApiClient {
     // Bun automatically loads .env files
     this.apiKey = Bun.env.API_KEY || '';
     this.baseUrl = baseUrl || Bun.env.API_BASE_URL || '';
+    console.log(this.apiKey, this.baseUrl);
     
     if (!this.apiKey) {
       throw new Error('API_KEY not found in environment variables');
