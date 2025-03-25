@@ -20,7 +20,7 @@ async function askClaude(userMessage: string) {
     // Create a message using the Anthropic API
     const response = await anthropic.messages.create({
       model: "claude-3-7-sonnet-20250219", // Using the latest Claude model as of your date
-      max_tokens: 1000,
+      max_tokens: 1024,
       messages: [
         { role: "user", content: userMessage }
       ],
@@ -40,12 +40,12 @@ async function askClaude(userMessage: string) {
 
 // Call the function with a test message
 async function main() {
-  const question = "What are three interesting facts about quantum computing?";
+  const question = `Pretend to be GM for the game Blades in the Dark.`;
   console.log(`Asking Claude: "${question}"`);
   await askClaude(question);
 }
 
 // Run the main function
 main().catch(error => {
-  console.error("An error occurred:", error);
+  console.error(error);
 });
