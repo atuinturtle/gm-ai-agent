@@ -10,6 +10,11 @@ export const db = drizzle(client);
 
 const anthropic = new AnthropicClient();
 
+anthropic.generateText(`Welcome the user to the game. 
+    Make sure to include all the details that are important to the story.`).then((res) => {
+    console.log(res);
+});
+
 console.log("Enter a prompt: ");
 let prompt = "";
 
@@ -24,5 +29,5 @@ if (!prompt) {
 }
 console.log(prompt);
 anthropic.generateText(prompt).then((res) => {
-    console.log(res.content[0].text);
+    console.log(res);
 });
