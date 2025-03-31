@@ -15,3 +15,32 @@ export const messages = pgTable('messages', {
   content: varchar('content').notNull(),
   created_at: timestamp('created_at').notNull()
 });
+
+export const characters = pgTable('characters', {
+  id: serial('id').primaryKey(),
+  name: varchar('name').notNull(),
+  background: varchar('background').notNull(),
+  heritage: varchar('heritage').notNull(),
+  actions: varchar('actions').notNull(),
+});
+
+export const attributes = pgTable('attributes', { 
+  id: serial('id').primaryKey(),
+  name: varchar('name').notNull(),
+  description: varchar('description').notNull(),
+});
+
+export const actions = pgTable('actions', {
+  id: serial('id').primaryKey(),
+  name: varchar('name').notNull(),
+  description: varchar('description').notNull(),
+  attribute_id: serial('attribute_id')
+    .notNull()
+    .references(() => attributes.id),
+});
+
+export const abilities = pgTable('abilities', {
+  id: serial('id').primaryKey(), 
+  name: varchar('name').notNull(),
+  description: varchar('description').notNull(),
+});
