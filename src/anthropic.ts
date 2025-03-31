@@ -15,18 +15,20 @@ class AnthropicClient {
 
   async generateText(prompt: string): Promise<any> {
     this.addMessageToHistory("user", prompt);
+    console.log(this.conversationHistory);
 
     const response = await this.anthropic.messages.create({
         model: "claude-3-7-sonnet-20250219",
         max_tokens: 1000,
         temperature: 1,
-        system: `Pretend to be a proffessional gm for a tabletop rpg game. 
+        system: `Pretend to be a proffessional gm for the tabletop rpg game Blades in the Dark. 
         Describe the world and the characters in a way that is engaging and interesting. 
         Make sure to include all the details that are important to the story.` ,
         messages: this.conversationHistory
       });
 
     this.addMessageToHistory("assistant", response.content[0].text);
+    console.log(this.conversationHistory);
 
     return response;
   }
