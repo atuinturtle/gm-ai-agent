@@ -83,3 +83,4 @@ export type NewPlayerCharacter = typeof player_characters.$inferInsert;
 export type Attribute = typeof attributes.$inferSelect;
 export type Action = typeof actions.$inferSelect;
 export type Ability = typeof abilities.$inferSelect;
+export type Playbook = typeof playbooks.$inferSelect;
