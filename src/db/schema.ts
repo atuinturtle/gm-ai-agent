@@ -1,4 +1,4 @@
-import { pgTable, serial, timestamp, text } from "drizzle-orm/pg-core";
+import { pgTable, serial, timestamp, text, integer } from "drizzle-orm/pg-core";
 
 export const conversations = pgTable('conversations', {
   id: serial('id').primaryKey(),
@@ -19,8 +19,35 @@ export const messages = pgTable('messages', {
 export const player_characters = pgTable('player_characters', {
   id: serial('id').primaryKey(),
   name: text('name').notNull(),
+  alias: text('alias').default('').notNull(),
   background: text('background').notNull(),
   heritage: text('heritage').notNull(),
+});
+
+export const playbooks = pgTable('playbooks', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(), // e.g., Cutter, Hound, Leech, Lurk, etc.
+  description: text('description').notNull(),
+});
+
+export const abilities = pgTable('abilities', {
+  id: serial('id').primaryKey(), 
+  playbook_id: serial('playbook_id')
+    .notNull()
+    .references(() => playbooks.id),
+  name: text('name').notNull(),
+  description: text('description').notNull(),
+});
+
+export const character_abilities = pgTable('character_abilities', {
+  id: serial('id').primaryKey(),
+  character_id: serial('character_id')
+    .notNull()
+    .references(() => player_characters.id),
+  ability_id: serial('ability_id')
+    .notNull()
+    .references(() => abilities.id),
+  acquired_at: timestamp('acquired_at').defaultNow().notNull(),
 });
 
 export const attributes = pgTable('attributes', { 
@@ -38,10 +65,15 @@ export const actions = pgTable('actions', {
     .references(() => attributes.id),
 });
 
-export const abilities = pgTable('abilities', {
-  id: serial('id').primaryKey(), 
-  name: text('name').notNull(),
-  description: text('description').notNull(),
+  export const character_actions = pgTable('character_actions', {
+  id: serial('id').primaryKey(),
+  character_id: serial('character_id')
+    .notNull()
+    .references(() => player_characters.id),
+  action_id: serial('action_id')
+    .notNull()
+    .references(() => actions.id),
+  rating: integer('rating').default(0).notNull(),
 });
 
 export type Conversation = typeof conversations.$inferSelect;
