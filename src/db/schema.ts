@@ -108,3 +108,5 @@ export type Attribute = typeof attributes.$inferSelect;
 export type Action = typeof actions.$inferSelect;
 export type Ability = typeof abilities.$inferSelect;
 export type Playbook = typeof playbooks.$inferSelect;
+export type Crew = typeof crews.$inferSelect;
+export type CrewType = typeof crew_types.$inferSelect;

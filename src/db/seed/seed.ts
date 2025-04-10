@@ -1,6 +1,6 @@
 import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
-import { actions, attributes, playbooks } from '../schema';
+import { actions, attributes, crew_types, playbooks } from '../schema';
 import { eq } from 'drizzle-orm';
 // Disable prefetch as it is not supported for "Transaction" pool mode
 export const client = postgres(process.env.DATABASE_URL as string, { prepare: false })
@@ -42,6 +42,14 @@ async function seed() {
         { id: 12, name: 'Sway', attribute_id: resolve[0]?.id, description: 'When you Sway, you influence someone with guile, charm, or argument. You might lie convincingly. You might persuade someone to do what you want. You might argue a case that leaves no clear rebuttal. You could try to trick people into affection or obedience (but Consorting or Commanding might be better).' },
     ]).onConflictDoNothing({ target: actions.id });
 
+    await db.insert(crew_types).values([
+        { id: 1, name: 'Assassins', description: 'Killers for hire' },
+        { id: 2, name: 'Bravos', description: 'Mercenaries and thugs' },
+        { id: 3, name: 'Cult', description: 'Acolytes of a forgotten god' },
+        { id: 4, name: 'Shadows', description: 'Thieves and spies' },
+        { id: 5, name: 'Smugglers', description: 'Contraband transporters' },
+    ]).onConflictDoNothing({ target: crew_types.id });
+    
     console.log('Seeded successfully');
 }
 
