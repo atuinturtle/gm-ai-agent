@@ -22,6 +22,13 @@
       "when": 1744311202794,
       "tag": "0002_crews",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1744312257985,
+      "tag": "0003_crews-fix",
+      "breakpoints": true
     }
   ]
 }

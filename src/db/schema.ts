@@ -22,6 +22,9 @@ export const player_characters = pgTable('player_characters', {
   alias: text('alias').default('').notNull(),
   background: text('background').notNull(),
   heritage: text('heritage').notNull(),
+  crew_id: serial('crew_id')
+    .notNull()
+    .references(() => crews.id),
 });
 
 export const playbooks = pgTable('playbooks', {
@@ -79,10 +82,10 @@ export const character_actions = pgTable('character_actions', {
 export const crews = pgTable('crews', {
   id: serial('id').primaryKey(),
   name: text('name').notNull(),
-  description: text('description').notNull(),
   crew_type_id: serial('crew_type_id')
     .notNull()
     .references(() => crew_types.id),
+  initial_reputation: text('initial_reputation').default('').notNull(),
   reputation: integer('reputation').default(0).notNull(),
   hold: integer('hold').default(0).notNull(),
   tier: integer('tier').default(0).notNull(),
