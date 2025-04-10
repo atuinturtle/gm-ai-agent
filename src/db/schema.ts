@@ -101,7 +101,15 @@ export const crew_types = pgTable('crew_types', {
   description: text('description').notNull(),
 });
 
-
+export const hunting_grounds = pgTable('hunting_grounds', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
+  description: text('description').notNull(),
+  crew_type_id: serial('crew_type_id')
+    .notNull()
+    .references(() => crew_types.id),
+  created_at: timestamp('created_at').defaultNow().notNull(),
+});
 
 export type Conversation = typeof conversations.$inferSelect;
 export type Message = typeof messages.$inferSelect;
@@ -113,3 +121,4 @@ export type Ability = typeof abilities.$inferSelect;
 export type Playbook = typeof playbooks.$inferSelect;
 export type Crew = typeof crews.$inferSelect;
 export type CrewType = typeof crew_types.$inferSelect;
+export type HuntingGround = typeof hunting_grounds.$inferSelect;
