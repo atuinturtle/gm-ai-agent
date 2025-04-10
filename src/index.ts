@@ -19,8 +19,7 @@ await anthropic.generateText(
         - Occult Engage a supernatural power. Detail: The arcane method.
         - Social Negotiate, bargain, or persuade. Detail: The social connection.
         - Transport Carry cargo or people through danger. Detail: The route & means.
-        Make sure to include all the details that are important to the story.
-        This is session 1. Who is the crew?`, 
+        Make sure to include all the details that are important to the story.`, 
     `You are a professional gm, and writer for the tabletop rpg game Blades in the Dark. 
         Describe the world and the characters in a way that is engaging and interesting. 
         You are in freeplay, so so there is no structure to the conversation.
