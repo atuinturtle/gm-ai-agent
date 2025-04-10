@@ -3,7 +3,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import readline from "readline/promises";
 import dotenv from "dotenv";
-import type { MessageParams, Resource, Tool } from "@anthropic-ai/sdk/resources/messages.mjs";
+import type { MessageParam, Resource, Tool } from "@anthropic-ai/sdk/resources/messages.mjs";
 
 class AnthropicClient {
   private mcp: Client;
@@ -11,7 +11,7 @@ class AnthropicClient {
   private transport: StdioClientTransport | null = null;
   private tools: Tool[] = [];
   private resources: Resource[] = [];
-  private conversationHistory: MessageParams[] = [];
+  private conversationHistory: MessageParam[] = [];
 
   constructor() {
     this.anthropic = new Anthropic();
@@ -31,7 +31,13 @@ class AnthropicClient {
         tools: this.tools
       });
 
-    this.addMessageToHistory("assistant", response.content[0].text);
+    for (const content of response.content) {
+      if (content.type === "text") {
+        this.addMessageToHistory("assistant", content.text);
+      } else if (content.type === "tool_use") {
+        console.log(content);
+      }
+    }
     console.log(this.conversationHistory);
 
     return response;

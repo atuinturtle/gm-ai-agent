@@ -19,7 +19,8 @@ await anthropic.generateText(
         - Occult Engage a supernatural power. Detail: The arcane method.
         - Social Negotiate, bargain, or persuade. Detail: The social connection.
         - Transport Carry cargo or people through danger. Detail: The route & means.
-        Make sure to include all the details that are important to the story.`, 
+        Make sure to include all the details that are important to the story.
+        This is session 1. Who is the crew?`, 
     `You are a professional gm, and writer for the tabletop rpg game Blades in the Dark. 
         Describe the world and the characters in a way that is engaging and interesting. 
         You are in freeplay, so so there is no structure to the conversation.
@@ -27,7 +28,7 @@ await anthropic.generateText(
         Make sure to include all the details that are important to the story.
         Use the senses to describe the world. Be descriptive and evocative, but don't be too verbose.`
 ).then((res) => {
-    console.log(res.content[0]?.text ?? "No response");
+    console.log(res.content[0] ?? "No response");
 });
 
 console.log("Enter a prompt: ");
@@ -44,5 +45,5 @@ if (!prompt) {
 }
 console.log(prompt);
 anthropic.generateText(prompt).then((res) => {
-    console.log(res.content[0]?.text ?? "No response");
+    console.log(res.content[0] ?? "No response");
 });
