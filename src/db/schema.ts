@@ -76,6 +76,22 @@ export const character_actions = pgTable('character_actions', {
   rating: integer('rating').default(0).notNull(),
 });
 
+export const crews = pgTable('crews', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
+  description: text('description').notNull(),
+  crew_type_id: serial('crew_type_id')
+    .notNull()
+    .references(() => crew_types.id),
+  reputation: integer('reputation').default(0).notNull(),
+  hold: integer('hold').default(0).notNull(),
+  tier: integer('tier').default(0).notNull(),
+  heat: integer('heat').default(0).notNull(),
+  wanted_level: integer('wanted_level').default(0).notNull(),
+  coins: integer('coins').default(0).notNull(),
+  created_at: timestamp('created_at').defaultNow().notNull(),
+});
+
 export const crew_types = pgTable('crew_types', {
   id: serial('id').primaryKey(),
   name: text('name').notNull(),
