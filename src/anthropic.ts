@@ -1,8 +1,6 @@
 import { Anthropic } from "@anthropic-ai/sdk";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import readline from "readline/promises";
-import dotenv from "dotenv";
 import type { MessageParam, Resource, Tool } from "@anthropic-ai/sdk/resources/messages.mjs";
 
 class AnthropicClient {
@@ -35,7 +33,16 @@ class AnthropicClient {
       if (content.type === "text") {
         this.addMessageToHistory("assistant", content.text);
       } else if (content.type === "tool_use") {
-        console.log(content);
+        const toolName = content.name;
+        const toolArg = content.input as { [x: string]: unknown } | undefined;
+        console.log("Tool use: %s with args: %s", toolName, toolArg);
+        const toolResult = await this.mcp.callTool({
+          name: toolName,
+          arguments: toolArg
+        });
+        console.log("Tool result: %s", toolResult);
+        this.addMessageToHistory("user", toolResult.content as string);
+        const response = await this.generateText(toolResult.content as string, systemPrompt);
       }
     }
     console.log(this.conversationHistory);
