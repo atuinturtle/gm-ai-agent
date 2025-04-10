@@ -1,14 +1,11 @@
-import { drizzle } from 'drizzle-orm/postgres-js'
-import postgres from 'postgres'
-import { conversations, messages } from './db/schema';
-import { eq } from 'drizzle-orm';
-import AnthropicClient from './anthropic';
 
-// Disable prefetch as it is not supported for "Transaction" pool mode
-export const client = postgres(process.env.DATABASE_URL as string, { prepare: false })
-export const db = drizzle(client);
+import AnthropicClient from './anthropic';
+import { PlayerService } from './service/player_service';
 
 const anthropic = new AnthropicClient();
+const playerService = new PlayerService();
+
+await anthropic.connectToServer("src/session_mcp_server.ts");
 
 await anthropic.generateText(
     `Welcome the user to the game. 
@@ -30,7 +27,7 @@ await anthropic.generateText(
         Make sure to include all the details that are important to the story.
         Use the senses to describe the world. Be descriptive and evocative, but don't be too verbose.`
 ).then((res) => {
-    console.log(res.content[0].text);
+    console.log(res.content[0]?.text ?? "No response");
 });
 
 console.log("Enter a prompt: ");
@@ -47,5 +44,5 @@ if (!prompt) {
 }
 console.log(prompt);
 anthropic.generateText(prompt).then((res) => {
-    console.log(res.content[0].text);
+    console.log(res.content[0]?.text ?? "No response");
 });

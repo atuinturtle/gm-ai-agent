@@ -65,7 +65,7 @@ export const actions = pgTable('actions', {
     .references(() => attributes.id),
 });
 
-  export const character_actions = pgTable('character_actions', {
+export const character_actions = pgTable('character_actions', {
   id: serial('id').primaryKey(),
   character_id: serial('character_id')
     .notNull()
@@ -75,6 +75,14 @@ export const actions = pgTable('actions', {
     .references(() => actions.id),
   rating: integer('rating').default(0).notNull(),
 });
+
+export const crew_types = pgTable('crew_types', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
+  description: text('description').notNull(),
+});
+
+
 
 export type Conversation = typeof conversations.$inferSelect;
 export type Message = typeof messages.$inferSelect;
