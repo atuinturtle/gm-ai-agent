@@ -1,14 +1,16 @@
 import { CrewRepository } from "../repository/crew_repository";
 import { CrewTypesRepository } from "../repository/crew_types_repository";
-import type { Crew, CrewType } from "../db/schema";
+import type { Crew, CrewType, HuntingGround } from "../db/schema";
+import { HuntingGroundsRepository } from "../repository/hunting_grounds_repository";
 
 export class CrewService {
   private crewRepository: CrewRepository;
   private crewTypesRepository: CrewTypesRepository;
-
+  private huntingGroundsRepository: HuntingGroundsRepository;
   constructor() {
     this.crewRepository = new CrewRepository();
     this.crewTypesRepository = new CrewTypesRepository();
+    this.huntingGroundsRepository = new HuntingGroundsRepository();
   }
 
   async getAllCrews(): Promise<Crew[]> {
@@ -31,9 +33,15 @@ export class CrewService {
     return await this.crewRepository.getCrewsWithCrewTypes();
   }
 
-  async getCrewWithDetails(id: number): Promise<(Crew & { crew_type: CrewType }) | undefined> {
-    const crews = await this.crewRepository.getCrewsWithCrewTypes();
-    return crews.find(crew => crew.id === id);
+  async getCrewWithDetails(id: number): Promise<({crew: Crew, hunting_ground: HuntingGround[]}) | undefined> {
+    const crew = await this.crewRepository.findById(id);
+    if (!crew) return undefined;
+
+    const hunting_ground = await this.huntingGroundsRepository.findByCrewTypeId(crew.crew_type_id);
+    return {
+      crew,
+      hunting_ground
+    };  
   }
 
   async createCrew(crew: Omit<Crew, 'id' | 'created_at'>): Promise<Crew> {

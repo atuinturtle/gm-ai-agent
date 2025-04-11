@@ -27,14 +27,14 @@ server.resource(
 )
 
 server.tool(
-    "get_current_player",
-    { sessionId: z.string() },
+    "get_current_players",
+    { sessionId: z.number() },
     async ({ sessionId }) => {
-        const player = await new PlayerService().getCharacterWithDetails(1);
+        const player = await new PlayerService().getCharacterWithDetails(sessionId);
         return { 
             content: [{
                 type: "text",
-                text: JSON.stringify(player)
+                text: JSON.stringify([player])
             }]
         };
     }

@@ -42,8 +42,9 @@ async function seed() {
         { id: 1, name: 'Assassins', description: 'Killers for hire' },
         { id: 2, name: 'Bravos', description: 'Mercenaries and thugs' },
         { id: 3, name: 'Cult', description: 'Acolytes of a forgotten god' },
-        { id: 4, name: 'Shadows', description: 'Thieves and spies' },
-        { id: 5, name: 'Smugglers', description: 'Contraband transporters' },
+        { id: 4, name: 'Hawkers', description: 'Vice dealers' },
+        { id: 5, name: 'Shadows', description: 'Thieves and spies' },
+        { id: 6, name: 'Smugglers', description: 'Contraband transporters' },
     ]).onConflictDoNothing({ target: crew_types.id });
 
     await db.insert(hunting_grounds).values([

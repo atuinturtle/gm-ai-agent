@@ -1,9 +1,13 @@
 
 import AnthropicClient from './anthropic';
+import { CrewService } from './service/crew_service';
 import { PlayerService } from './service/player_service';
 
 const anthropic = new AnthropicClient();
 const playerService = new PlayerService();
+const crewService = new CrewService();
+const crew = await crewService.getCrewWithDetails(1);
+console.log(crew);
 
 await anthropic.connectToServer("src/session_mcp_server.ts");
 
